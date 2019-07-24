@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      // let的基本用法
+      // 1.let命令所在的代码块内有效
+      {
+        let a = 10;
+        var b = 10;
+      }
+      // console.log(a); // Uncaught ReferenceError: a is not defined
+      console.log(b);
+      var a = [];
+      for (let i = 0; i < 10; i++) {
+        a[i] = function() {
+          console.log(i);
+        };
+      }
+      a[6]();
+
+      // 2.不存在变量提升
+      console.log(foo); // 输出undefined
+      var foo = 2;
+
+      // let 的情况
+      // console.log(bar); // 报错ReferenceError
+      let bar = 2;
+
+      // 3.暂时性死区 指在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”
+      var tmp = 123;
+
+      if (true) {
+        // tmp = "abc"; // ReferenceError
+        let tmp;
+      }
+      // console.log(tmp);
+      // 4.不允许重复声明 let不允许在相同的作用域内，重复声明同一个变量
+      function func() {
+        let aa = 1;
+        // let aa = 2;
+        // console.log(aa); //Uncaught SyntaxError: Identifier 'aa' has already been declared
+      }
+      // func();
+
+      // 二，块级作用域
+      // 为什么需要块级作用域？
+      // es5 只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景
+      var tmp2 = new Date();
+      function f() {
+        console.log(tmp2); //undefind
+        if (false) {
+          var tmp2 = "hello world";
+        }
+      }
+      // f();
+
+      var s = "hello";
+      for (var i = 0; i < s.length; i++) {
+        console.log(s[i]);
+      }
+      // console.log(i);
+
+      // 三，es6 块级作用域作用
+      function kuai() {
+        let n = 5;
+        if (true) {
+          let n = 10;
+        }
+        console.log(n);
+      }
+      kuai();
+      // 实际上使得广泛应用的匿名立即执行函数表达式（匿名IIFE）不在必要了。
+
+      // IIFE写法
+      (function() {
+        var temp = 2;
+      })();
+      // 块级作用域写法
+      {
+        let temp = 2;
+      }
+
+      // 四，块级作用域与函数声明的关系
+      // 1)es5规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明。
+      // 情况1
+      if (true) {
+        function f() {}
+      }
+      //情况2
+      try {
+        function f() {}
+      } catch (e) {
+        //
+      }
+
+      //es6块级作用域明确允许块级作用域之中声明函数。  es6规定，块级作用域之中，函数声明语句的行为类似于let，在块级作用域之外不可引用。
+      //
+    </script>
+  </body>
+</html>
